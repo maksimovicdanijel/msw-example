@@ -1,22 +1,17 @@
 module.exports = {
   env: {
     browser: true,
-    es2021: true,
+    es2021: true
   },
-  extends: [
-    'plugin:react/recommended',
-    'standard-with-typescript',
-    'prettier',
-    'plugin:jest/recommended',
-  ],
+  extends: ['plugin:react/recommended', 'standard-with-typescript', 'prettier', 'plugin:jest/recommended', 'plugin:storybook/recommended'],
   overrides: [],
   parserOptions: {
     ecmaVersion: 'latest',
-    sourceType: 'module',
+    sourceType: 'module'
   },
   plugins: ['react', 'prettier', 'jest'],
   rules: {},
   env: {
-    'jest/globals': true,
-  },
-}
+    'jest/globals': true
+  }
+};
