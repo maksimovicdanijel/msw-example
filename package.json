@@ -16,5 +16,9 @@
   "bugs": {
     "url": "https://github.com/maksimovicdanijel/msw-example/issues"
   },
-  "homepage": "https://github.com/maksimovicdanijel/msw-example#readme"
+  "homepage": "https://github.com/maksimovicdanijel/msw-example#readme",
+  "devDependencies": {
+    "@mswjs/data": "^0.11.2",
+    "msw": "^1.1.0"
+  }
 }

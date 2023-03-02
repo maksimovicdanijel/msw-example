@@ -1,22 +1,6 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import { Home } from './pages/Home'
-import { Checkout } from './pages/Checkout'
+import { RouterProvider } from 'react-router-dom'
 
-const Error = () => <p>Error page</p>
-
-const browserRouter = createBrowserRouter([
-  {
-    path: '/',
-    element: <Home />,
-    errorElement: <Error />,
-    children: [
-      {
-        path: 'checkout',
-        element: <Checkout />,
-      },
-    ],
-  },
-])
+import browserRouter from './routes'
 
 function App() {
   return <RouterProvider router={browserRouter} />
