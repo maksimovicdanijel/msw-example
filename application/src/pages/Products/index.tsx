@@ -36,12 +36,13 @@ const products = [
 export function Products() {
   return (
     <Container>
-      <h1 className="relative font-heading text-3xl">Cool products</h1>
-      <Spacer space={10} />
+      <h1 className="relative pb-5 font-heading text-xl font-medium">
+        Featured products
+      </h1>
 
       <ul className="grid grid-cols-4 grid-rows-1 gap-10">
         {products.map(product => (
-          <li>
+          <li key={product.id}>
             <ProductListItem product={product}>
               <Button>Add to cart</Button>
             </ProductListItem>

@@ -15,6 +15,8 @@ export function ProductListItem({
 }: PropsWithChildren<Props>) {
   const [hovered, setHovered] = useState(false)
 
+  const hoveredClass = hovered ? 'opacity-1' : 'opacity-0'
+
   return (
     <div>
       <div
@@ -29,9 +31,7 @@ export function ProductListItem({
         <ProductThumbnail src={product.src} alt={product.name} />
         {children ? (
           <div
-            className={`absolute top-0 left-0 opacity-${
-              hovered ? 1 : 0
-            } flex h-full w-full items-center justify-center bg-white/80 transition-opacity`}
+            className={`absolute top-0 left-0 ${hoveredClass} flex h-full w-full items-center justify-center bg-white/80 transition-opacity`}
           >
             {children}
           </div>

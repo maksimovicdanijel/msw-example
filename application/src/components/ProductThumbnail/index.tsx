@@ -1,3 +1,18 @@
-export function ProductThumbnail({ src, alt }: { src: string; alt: string }) {
-  return <img src={src} alt={alt} className="inline-block drop-shadow-sm" />
+import { ImgHTMLAttributes } from 'react'
+
+type Props = {
+  src: string
+  alt: string
+  className?: string
+} & ImgHTMLAttributes<HTMLImageElement>
+
+export function ProductThumbnail({ src, alt, className, ...rest }: Props) {
+  return (
+    <img
+      src={src}
+      alt={alt}
+      {...rest}
+      className={`${className} inline-block drop-shadow-sm`}
+    />
+  )
 }
