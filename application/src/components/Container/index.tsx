@@ -1,5 +1,9 @@
 import { PropsWithChildren } from 'react'
 
-export function Container({ children }: PropsWithChildren) {
-  return <div className="container mx-auto">{children}</div>
+type Props = PropsWithChildren<{
+  className?: string
+}>
+
+export function Container({ children, className }: Props) {
+  return <div className={`mx-auto ${className} container`}>{children}</div>
 }

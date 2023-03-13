@@ -1,4 +1,5 @@
 import { Button } from '@app/components/Button'
+import { PageTitle } from '@app/components/PageTitle'
 import Spacer from '@app/components/Spacer'
 import { useLoaderData } from 'react-router-dom'
 import getProducts from '../../api/getProducts'
@@ -36,9 +37,7 @@ const products = [
 export function Products() {
   return (
     <Container>
-      <h1 className="relative pb-5 font-heading text-xl font-medium">
-        Featured products
-      </h1>
+      <PageTitle>Featured products</PageTitle>
 
       <ul className="grid grid-cols-4 grid-rows-1 gap-10">
         {products.map(product => (
