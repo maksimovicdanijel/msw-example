@@ -3,7 +3,7 @@ import CartIcon from '../CartIcon'
 
 export function Header() {
   return (
-    <header className="bg-white shadow">
+    <header className="relative z-10 bg-white shadow">
       <div className="container mx-auto">
         <div className="flex h-20 items-center justify-between">
           <Link to="/">

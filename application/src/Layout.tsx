@@ -4,9 +4,8 @@ import Spacer from './components/Spacer'
 
 export function Layout() {
   return (
-    <div>
+    <div className="">
       <Header />
-      <Spacer space={10} />
       <Outlet />
     </div>
   )

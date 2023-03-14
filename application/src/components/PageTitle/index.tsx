@@ -1,8 +1,12 @@
 import { PropsWithChildren } from 'react'
 
-export function PageTitle({ children }: PropsWithChildren) {
+type Props = PropsWithChildren<{
+  className?: string
+}>
+
+export function PageTitle({ children, className }: Props) {
   return (
-    <h1 className="relative pb-5 font-heading text-xl font-medium">
+    <h1 className={`font-heading text-xl font-medium ${className}`}>
       {children}
     </h1>
   )

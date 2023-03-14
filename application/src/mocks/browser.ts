@@ -1,5 +1,3 @@
-// src/mocks/browser.js
-
 // src/mocks/browser.ts
 import { setupWorker } from 'msw'
 

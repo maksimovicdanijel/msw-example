@@ -14,10 +14,10 @@ const browserRouter = createBrowserRouter([
         index: true,
         element: <Products />,
       },
-      // {
-      //   path: 'checkout',
-      //   element: <Checkout />,
-      // },
+      {
+        path: 'checkout',
+        element: <Checkout />,
+      },
     ],
   },
 ])
