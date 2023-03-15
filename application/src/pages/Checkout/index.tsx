@@ -2,6 +2,8 @@ import { TrashIcon } from '@heroicons/react/24/outline'
 import { Product } from '@app/types'
 import { formatCurrency } from '@app/utils/currency'
 import visaImg from './assets/visa-logo.png'
+import { Fieldset, Input, Label, Radio } from '@app/components/Form'
+import { Button } from '@app/components/Button'
 
 const cartContent: Product[] = [
   {
@@ -60,54 +62,32 @@ export function Checkout() {
       </div>
       <div className="bg-white p-8 md:h-full md:flex-1 md:p-16 md:pl-24 md:shadow">
         <form className="w-[400px]">
-          <fieldset className="mb-10">
-            <label htmlFor="email" className="mb-2 inline-block font-heading">
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              className="w-full rounded border-2 border-zinc-200 p-3 outline-none focus:border-cyan-600"
-              autoComplete="off"
-            />
-          </fieldset>
-          <fieldset className="mb-10">
-            <label htmlFor="phone" className="mb-2 inline-block font-heading">
-              Phone
-            </label>
-            <input
-              type="phone"
-              id="phone"
-              className="w-full rounded border-2 border-zinc-200 p-3 outline-none focus:border-cyan-600"
-              autoComplete="off"
-            />
-          </fieldset>
-          <fieldset className="mb-10">
-            <label
-              htmlFor="payment-method"
-              className="mb-2 inline-block font-heading"
-            >
-              Payment method
-            </label>
+          <Fieldset>
+            <Label htmlFor="email">Email</Label>
+            <Input type="email" id="email" autoComplete="off" />
+          </Fieldset>
+          <Fieldset>
+            <Label htmlFor="phone">Phone</Label>
+            <Input type="phone" id="phone" autoComplete="off" />
+          </Fieldset>
+          <Fieldset>
+            <Label htmlFor="payment-method">Payment method</Label>
             <div className="flex justify-between rounded border-2 border-cyan-600 p-4 py-6 shadow">
               <div>
-                <input
-                  type="radio"
-                  id="payment-method"
-                  checked={true}
-                  className="h-4 w-4 "
-                />
-                <label
-                  htmlFor="payment-method"
-                  className="ml-4 font-heading text-zinc-700"
-                >
-                  **** 4563
-                </label>
+                <Radio id="payment-method" checked={true} />
+                <Label htmlFor="payment-method">**** 4563</Label>
               </div>
 
               <img src={visaImg} width="80" />
             </div>
-          </fieldset>
+          </Fieldset>
+
+          <Fieldset>
+            <Label htmlFor="card-holder-name">Card holder name</Label>
+            <Input type="text" id="card-holder-name" autoComplete="off" />
+          </Fieldset>
+
+          <Button type="submit">Pay now</Button>
         </form>
       </div>
     </div>
