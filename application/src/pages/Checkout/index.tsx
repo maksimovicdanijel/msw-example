@@ -4,6 +4,7 @@ import { formatCurrency } from '@app/utils/currency'
 import visaImg from './assets/visa-logo.png'
 import { Fieldset, Input, Label, Radio } from '@app/components/Form'
 import { Button } from '@app/components/Button'
+import { ActionFunction, Form, redirect, useNavigation } from 'react-router-dom'
 
 const cartContent: Product[] = [
   {
@@ -20,7 +21,28 @@ const cartContent: Product[] = [
   },
 ]
 
+export const action: ActionFunction = async ({ request }) => {
+  const formData = await request.formData()
+
+  const response = await fetch('/api/v1/payment', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(Object.fromEntries(formData)),
+  })
+
+  if (response.ok) {
+    return redirect('/thank-you')
+  }
+
+  return new Response()
+}
+
 export function Checkout() {
+  const navigation = useNavigation()
+  const submitting = navigation.state === 'submitting'
+
   return (
     <div className="flex h-[100vh] flex-col md:flex-row md:justify-between">
       <div className="bg-slate-50 p-8 md:h-full  md:flex-1 md:p-16">
@@ -61,21 +83,29 @@ export function Checkout() {
         </div>
       </div>
       <div className="bg-white p-8 md:h-full md:flex-1 md:p-16 md:pl-24 md:shadow">
-        <form className="w-[400px]">
+        <Form className="w-[400px]" method="post" id="checkout-form">
           <Fieldset>
             <Label htmlFor="email">Email</Label>
-            <Input type="email" id="email" autoComplete="off" />
+            <Input type="email" id="email" autoComplete="off" name="email" />
           </Fieldset>
           <Fieldset>
             <Label htmlFor="phone">Phone</Label>
-            <Input type="phone" id="phone" autoComplete="off" />
+            <Input type="phone" id="phone" autoComplete="off" name="phone" />
           </Fieldset>
           <Fieldset>
             <Label htmlFor="payment-method">Payment method</Label>
             <div className="flex justify-between rounded border-2 border-cyan-600 p-4 py-6 shadow">
               <div>
-                <Radio id="payment-method" checked={true} />
-                <Label htmlFor="payment-method">**** 4563</Label>
+                <Radio
+                  id="payment-method"
+                  checked={true}
+                  onChange={console.log}
+                  name="card"
+                  value="visa"
+                />
+                <Label htmlFor="payment-method" className="ml-2 mb-0">
+                  **** 4563
+                </Label>
               </div>
 
               <img src={visaImg} width="80" />
@@ -84,11 +114,18 @@ export function Checkout() {
 
           <Fieldset>
             <Label htmlFor="card-holder-name">Card holder name</Label>
-            <Input type="text" id="card-holder-name" autoComplete="off" />
+            <Input
+              type="text"
+              id="card-holder-name"
+              autoComplete="off"
+              name="card-holder"
+            />
           </Fieldset>
 
-          <Button type="submit">Pay now</Button>
-        </form>
+          <Button type="submit" disabled={submitting}>
+            {submitting ? 'Paying...' : 'Pay now'}
+          </Button>
+        </Form>
       </div>
     </div>
   )
