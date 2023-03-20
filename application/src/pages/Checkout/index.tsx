@@ -4,44 +4,51 @@ import { formatCurrency } from '@app/utils/currency'
 import visaImg from './assets/visa-logo.png'
 import { Fieldset, Input, Label, Radio } from '@app/components/Form'
 import { Button } from '@app/components/Button'
-import { ActionFunction, Form, redirect, useNavigation } from 'react-router-dom'
+import { useState } from 'react'
+import { SubmitHandler, useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 
 const cartContent: Product[] = [
   {
     id: '1',
     src: 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
-    name: 'Nike Sportswear Tech Fleece',
+    name: 'Hoodie 1',
     price: 30,
-  },
-  {
-    id: '3',
-    src: 'https://images.unsplash.com/photo-1554568218-0f1715e72254?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
-    name: 'Nike Solo Swoosh',
-    price: 60.35,
   },
 ]
 
-export const action: ActionFunction = async ({ request }) => {
-  const formData = await request.formData()
-
-  const response = await fetch('/api/v1/payment', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(Object.fromEntries(formData)),
-  })
-
-  if (response.ok) {
-    return redirect('/thank-you')
-  }
-
-  return new Response()
+type FormData = {
+  email: string
+  phone: string
+  card: string
+  cardHolder: string
 }
 
 export function Checkout() {
-  const navigation = useNavigation()
-  const submitting = navigation.state === 'submitting'
+  const [submitting, setSubmitting] = useState(false)
+  const [hasError, setHasError] = useState(false)
+  const navigate = useNavigate()
+
+  const { register, handleSubmit } = useForm<FormData>()
+
+  const submit: SubmitHandler<FormData> = async data => {
+    setSubmitting(true)
+
+    const response = await fetch('/api/v1/payment', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+
+    if (response.ok) {
+      return navigate('/thank-you')
+    }
+
+    setSubmitting(false)
+    setHasError(true)
+  }
 
   return (
     <div className="flex h-[100vh] flex-col md:flex-row md:justify-between">
@@ -74,58 +81,80 @@ export function Checkout() {
           <div className="pt-4 text-right">
             <p>
               You owe us{' '}
-              <span className="font-heading text-lg">
-                {formatCurrency(90.35)}
-              </span>{' '}
+              <span className="font-heading text-lg">{formatCurrency(30)}</span>{' '}
               for these goodies
             </p>
           </div>
         </div>
       </div>
       <div className="bg-white p-8 md:h-full md:flex-1 md:p-16 md:pl-24 md:shadow">
-        <Form className="w-[400px]" method="post" id="checkout-form">
-          <Fieldset>
-            <Label htmlFor="email">Email</Label>
-            <Input type="email" id="email" autoComplete="off" name="email" />
-          </Fieldset>
-          <Fieldset>
-            <Label htmlFor="phone">Phone</Label>
-            <Input type="phone" id="phone" autoComplete="off" name="phone" />
-          </Fieldset>
-          <Fieldset>
-            <Label htmlFor="payment-method">Payment method</Label>
-            <div className="flex justify-between rounded border-2 border-cyan-600 p-4 py-6 shadow">
-              <div>
-                <Radio
-                  id="payment-method"
-                  checked={true}
-                  onChange={console.log}
-                  name="card"
-                  value="visa"
-                />
-                <Label htmlFor="payment-method" className="ml-2 mb-0">
-                  **** 4563
-                </Label>
-              </div>
-
-              <img src={visaImg} width="80" />
+        <div className="w-[400px]">
+          {hasError ? (
+            <div
+              role="alert"
+              className="mb-6 rounded  border-[1px] border-red-800 bg-red-50 px-3 py-2 font-medium text-red-800"
+            >
+              There was an issue processing your payment.
             </div>
-          </Fieldset>
+          ) : null}
+          <form
+            className="w-[400px]"
+            method="post"
+            id="checkout-form"
+            onSubmit={handleSubmit(submit)}
+          >
+            <Fieldset>
+              <Label htmlFor="email">Email</Label>
+              <Input
+                type="email"
+                id="email"
+                autoComplete="off"
+                {...register('email')}
+              />
+            </Fieldset>
+            <Fieldset>
+              <Label htmlFor="phone">Phone</Label>
+              <Input
+                type="phone"
+                id="phone"
+                autoComplete="off"
+                {...register('phone')}
+              />
+            </Fieldset>
+            <Fieldset>
+              <Label htmlFor="payment-method">Payment method</Label>
+              <div className="flex justify-between rounded border-2 border-cyan-600 p-4 py-6 shadow">
+                <div>
+                  <Radio
+                    id="payment-method"
+                    checked={true}
+                    value="visa"
+                    {...register('card')}
+                  />
+                  <Label htmlFor="payment-method" className="ml-2 mb-0">
+                    **** 4563
+                  </Label>
+                </div>
 
-          <Fieldset>
-            <Label htmlFor="card-holder-name">Card holder name</Label>
-            <Input
-              type="text"
-              id="card-holder-name"
-              autoComplete="off"
-              name="card-holder"
-            />
-          </Fieldset>
+                <img src={visaImg} width="80" />
+              </div>
+            </Fieldset>
 
-          <Button type="submit" disabled={submitting}>
-            {submitting ? 'Paying...' : 'Pay now'}
-          </Button>
-        </Form>
+            <Fieldset>
+              <Label htmlFor="card-holder-name">Card holder name</Label>
+              <Input
+                type="text"
+                id="card-holder-name"
+                autoComplete="off"
+                {...register('cardHolder')}
+              />
+            </Fieldset>
+
+            <Button type="submit" disabled={submitting}>
+              {submitting ? 'Paying...' : 'Pay now'}
+            </Button>
+          </form>
+        </div>
       </div>
     </div>
   )

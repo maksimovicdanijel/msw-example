@@ -19,6 +19,6 @@
       "@app/*": ["./src/*"]
     }
   },
-  "include": ["src", "./jest-setup.ts"],
+  "include": ["src", "src/test/jest-setup.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
