@@ -19,7 +19,7 @@ export const PaymentError = () => (
 PaymentError.parameters = {
   msw: {
     handlers: [
-      rest.get('/api/v1/payment', (_, res, ctx) => {
+      rest.post('/api/v1/payment', (_, res, ctx) => {
         return res(ctx.status(400))
       }),
     ],
