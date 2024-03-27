@@ -1,5 +1,5 @@
 import { Meta } from '@storybook/react'
-import { rest } from 'msw'
+import { http, HttpResponse } from 'msw'
 import { MemoryRouter, Routes, Route } from 'react-router-dom'
 import { Checkout } from '.'
 
@@ -19,8 +19,8 @@ export const PaymentError = () => (
 PaymentError.parameters = {
   msw: {
     handlers: [
-      rest.post('/api/v1/payment', (_, res, ctx) => {
-        return res(ctx.status(400))
+      http.post('/api/v1/payment', () => {
+        return HttpResponse.json(null, { status: 400 })
       }),
     ],
   },

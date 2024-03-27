@@ -2,7 +2,7 @@ import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { setupServer } from 'msw/node'
-import { rest } from 'msw'
+import { http, HttpResponse } from 'msw'
 import { Checkout } from '.'
 
 const DummyThankYou = () => <p>Thank you</p>
@@ -22,8 +22,8 @@ describe('page: Checkout', () => {
 
   it('redirects to the thank you page when the payment is sucessfull', async () => {
     server.use(
-      rest.post('/api/v1/payment', async (_, res, ctx) => {
-        return res(ctx.status(200))
+      http.post('/api/v1/payment', async () => {
+        return HttpResponse.json(null, { status: 200 })
       })
     )
 
@@ -47,8 +47,8 @@ describe('page: Checkout', () => {
 
   it('shows an alert if there is an error when making payment', async () => {
     server.use(
-      rest.post('/api/v1/payment', async (_, res, ctx) => {
-        return res(ctx.status(400))
+      http.post('/api/v1/payment', async () => {
+        return HttpResponse.json(null, { status: 400 })
       })
     )
 

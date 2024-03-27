@@ -1,12 +1,13 @@
 // src/mocks/handlers.ts
-import { rest } from 'msw'
+import { http, delay, HttpResponse } from 'msw'
 
 export const handlers = [
-  rest.post('/api/v1/payment', async (req, res, ctx) => {
-    const payload = await req.json()
+  http.post('/api/v1/payment', async ({ request }) => {
+    const payload = await request.json()
 
     console.log(payload)
+    await delay(2000)
 
-    return res(ctx.delay(2000), ctx.status(200))
+    return HttpResponse.json(null, { status: 200 })
   }),
 ]
