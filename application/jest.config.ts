@@ -1,8 +1,13 @@
-/** @type {import('jest').Config} */
-const config = {
+import type {Config} from 'jest'
+
+
+const config: Config = {
   setupFilesAfterEnv: ['<rootDir>/test/jest-setup.ts'],
   roots: ['./src'],
   testEnvironment: 'jsdom',
+  testEnvironmentOptions: {
+    customExportConditions: [''],
+  },
   moduleNameMapper: {
     '^@app/(.*)': '<rootDir>/src/$1',
     '.+\\.(css|styl|less|sass|scss|ttf|woff|woff2)$': 'identity-obj-proxy',
@@ -12,4 +17,4 @@ const config = {
   },
 }
 
-module.exports = config
+export default config
