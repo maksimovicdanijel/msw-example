@@ -3,11 +3,12 @@ import fastify from 'fastify'
 import server from './server'
 
 import { env } from './env'
+import { TypeBoxTypeProvider } from '@fastify/type-provider-typebox'
 
 const main = async () => {
   const app = fastify({
     logger: true,
-  })
+  }).withTypeProvider<TypeBoxTypeProvider>()
 
   app.register(server)
 

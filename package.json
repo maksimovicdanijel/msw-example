@@ -20,5 +20,8 @@
   "devDependencies": {
     "@mswjs/data": "^0.11.2",
     "msw": "^1.1.0"
-  }
+  },
+  "workspaces": [
+    "apps/application"
+  ]
 }
