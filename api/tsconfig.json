@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "allowJs": false,
+    "strict": true,
+    "skipLibCheck": true,
+    "moduleResolution": "node",
+    "module": "commonjs",
+    "lib": ["es2020"],
+    "target": "es2019",
+    "outDir": "./dist",
+    "rootDir": ".",
+    "baseUrl": ".",
+
+    "paths": {
+      "@src/*": ["src/*"],
+      "@test/*": ["test/*"]
+    },
+
+    "types": ["node", "jest"],
+    "useUnknownInCatchVariables": false,
+    "inlineSources": true,
+    "sourceRoot": "/"
+  },
+  "include": ["src/**/*.ts", "test/**/*.ts"]
+}
