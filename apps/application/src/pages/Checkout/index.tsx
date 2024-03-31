@@ -39,7 +39,7 @@ export function Checkout() {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify({ ...data, products: cartContent.map(p => p.id) }),
     })
 
     if (response.ok) {

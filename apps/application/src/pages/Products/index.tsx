@@ -10,7 +10,7 @@ export function Products() {
 
   useEffect(() => {
     async function getProducts() {
-      const response = await fetch('/api/products')
+      const response = await fetch('/api/v1/products')
 
       if (!response.ok) {
         throw new Error('error while fetching products')
