@@ -1,7 +1,7 @@
 {
-  "name": "gibraltar-api",
+  "name": "api",
   "version": "1.0.0",
-  "description": "API for Gibraltar e-services app",
+  "description": "API",
   "main": "app.js",
   "scripts": {
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
