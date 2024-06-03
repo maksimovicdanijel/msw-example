@@ -4,6 +4,7 @@ import { http, HttpResponse } from 'msw'
 import Chance from 'chance'
 import checkoutRoutes from '.'
 import { PluginOptions } from '@src/types'
+import { RequestBodyType } from './schema'
 
 const server = setupServer()
 
@@ -37,13 +38,7 @@ it('returns success if payment is successfull', async () => {
   const response = await app.inject({
     method: 'post',
     path: '/',
-    body: {
-      email: chance.email(),
-      products: [chance.guid()],
-      phone: chance.phone(),
-      paymentMethod: 'visa',
-      cardHolderName: chance.name({ full: true }),
-    },
+    body: makePayload(),
   })
 
   expect(response.statusCode).toBe(200)
@@ -70,13 +65,7 @@ it('returns errorCode when payment fails', async () => {
   const response = await app.inject({
     method: 'post',
     path: '/',
-    body: {
-      email: chance.email(),
-      products: [chance.guid()],
-      phone: chance.phone(),
-      paymentMethod: 'visa',
-      cardHolderName: chance.name({ full: true }),
-    },
+    body: makePayload(),
   })
 
   expect(response.statusCode).toBe(400)
@@ -85,3 +74,13 @@ it('returns errorCode when payment fails', async () => {
     errorCode: 'PAYMENT_FAILED',
   })
 })
+
+function makePayload(): RequestBodyType {
+  return {
+    email: chance.email(),
+    products: [chance.guid()],
+    phone: chance.phone(),
+    paymentMethod: 'visa',
+    cardHolderName: chance.name({ full: true }),
+  }
+}
